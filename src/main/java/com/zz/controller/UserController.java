@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
+import java.util.List;
 
 
 @RestController
@@ -61,6 +62,12 @@ public class UserController {
             return R.success(user);
         }
         return R.error("没有查询到此员工");
+    }
+
+    @GetMapping
+    public R<List<User>> getAll() {
+        List<User> users = userService.list();
+        return R.success(users);
     }
 
     @PostMapping("/logout")

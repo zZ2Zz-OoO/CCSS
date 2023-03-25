@@ -70,6 +70,17 @@ public class UserController {
         return R.success(users);
     }
 
+    @PutMapping
+    public R<String> update(@RequestBody User user) {
+        boolean flag = userService.updateById(user);
+        if (flag) {
+            return R.success("修改成功");
+        }
+        else {
+            return R.error("修改失败");
+        }
+    }
+
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request) {
         request.getSession().removeAttribute("user");

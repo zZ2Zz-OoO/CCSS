@@ -7,12 +7,10 @@ import com.zz.pojo.User;
 import com.zz.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigInteger;
 
 
 @RestController
@@ -54,6 +52,15 @@ public class UserController {
         userService.save(user);
         return R.success("新增用户成功");
 
+    }
+
+    @GetMapping("/{user_id}")
+    public R<User> getById(@PathVariable BigInteger user_id) {
+        User user = userService.getById(user_id);
+        if (user != null) {
+            return R.success(user);
+        }
+        return R.error("没有查询到此员工");
     }
 
     @PostMapping("/logout")

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigInteger;
+import java.util.List;
 
 @RestController
 @RequestMapping("/housekeepers")
@@ -44,6 +45,12 @@ public class HouseKeeperController {
         houseKeeperService.save(housekeeper);
         return R.success("新增用户成功");
 
+    }
+
+    @GetMapping
+    public R<List<Housekeeper>> getAll() {
+        List<Housekeeper> housekeepers = houseKeeperService.list();
+        return R.success(housekeepers);
     }
 
     @PutMapping

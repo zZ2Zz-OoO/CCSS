@@ -34,7 +34,7 @@ public class HouseKeeperController {
             return R.error("登陆失败");
         }
 
-        request.getSession().setAttribute("user", one.getHouseKeepingId());
+        request.getSession().setAttribute("houseKeeper", one.getHouseKeepingId());
         return R.success(one);
     }
 

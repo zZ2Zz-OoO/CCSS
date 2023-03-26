@@ -6,10 +6,7 @@ import com.zz.pojo.R;
 import com.zz.service.HouseKeeperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -47,4 +44,16 @@ public class HouseKeeperController {
         return R.success("新增用户成功");
 
     }
+
+    @PutMapping
+    public R<String> update(@RequestBody Housekeeper housekeeper) {
+        boolean flag = houseKeeperService.updateById(housekeeper);
+        if (flag) {
+            return R.success("修改成功");
+        }
+        else {
+            return R.error("修改失败");
+        }
+    }
+
 }

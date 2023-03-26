@@ -9,6 +9,7 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigInteger;
 
 @RestController
 @RequestMapping("/housekeepers")
@@ -54,6 +55,15 @@ public class HouseKeeperController {
         else {
             return R.error("修改失败");
         }
+    }
+
+    @GetMapping("/{house_keeper_id}")
+    public R<Housekeeper> getById(@PathVariable BigInteger house_keeper_id) {
+        Housekeeper housekeeper = houseKeeperService.getById(house_keeper_id);
+        if (housekeeper != null) {
+            return R.success(housekeeper);
+        }
+        return R.error("没有查询到此员工");
     }
 
 }

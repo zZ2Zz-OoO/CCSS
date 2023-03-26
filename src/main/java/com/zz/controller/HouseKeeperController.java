@@ -73,4 +73,9 @@ public class HouseKeeperController {
         return R.error("没有查询到此员工");
     }
 
+    @PostMapping("/logout")
+    public R<String> logout(HttpServletRequest request) {
+        request.getSession().removeAttribute("houseKeeper");
+        return R.success("退出成功");
+    }
 }

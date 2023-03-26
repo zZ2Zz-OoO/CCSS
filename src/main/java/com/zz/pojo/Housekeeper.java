@@ -17,6 +17,7 @@ public class Housekeeper implements Serializable {
     private String password;
     private String companyName;
     private String address;
+    private Integer isCheck;
     private String info;
     private String phone;
     private Date date;

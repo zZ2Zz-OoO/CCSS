@@ -81,6 +81,17 @@ public class UserController {
         }
     }
 
+    @DeleteMapping("/{user_id}")
+    public R<String> delete(@PathVariable BigInteger user_id) {
+        boolean b = userService.removeById(user_id);
+        if (b) {
+            return R.success("删除成功");
+        }
+        else {
+            return R.error("删除失败");
+        }
+    }
+
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request) {
         request.getSession().removeAttribute("user");

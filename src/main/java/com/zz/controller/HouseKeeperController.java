@@ -39,7 +39,7 @@ public class HouseKeeperController {
     }
 
     @PostMapping
-    public R<String> addUser(@RequestBody Housekeeper housekeeper) {
+    public R<String> addHouseKeeper(@RequestBody Housekeeper housekeeper) {
 
         housekeeper.setPassword(DigestUtils.md5DigestAsHex(housekeeper.getPassword().getBytes()));
         houseKeeperService.save(housekeeper);

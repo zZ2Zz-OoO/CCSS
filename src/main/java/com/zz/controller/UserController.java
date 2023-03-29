@@ -44,12 +44,10 @@ public class UserController {
 
 
     @PostMapping
-    public R<String> addUser(HttpServletRequest request, @RequestBody User user) {
+    public R<String> addUser(@RequestBody User user) {
 
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         user.setCardId(DigestUtils.md5DigestAsHex(user.getCardId().getBytes()));
-//        Long CardId = (Long) request.getSession().getAttribute("user");
-
         userService.save(user);
         return R.success("新增用户成功");
 

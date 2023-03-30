@@ -11,7 +11,7 @@ import java.math.BigInteger;
 public class Manager implements Serializable {
     @TableId(value = "manager_id", type = IdType.ASSIGN_ID)
     private BigInteger managerId;
-    private String ManagerName;
+    private String managerName;
     private String password;
 
 }

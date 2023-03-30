@@ -11,6 +11,6 @@ public class ServiceComment implements Serializable {
     private BigInteger user_id;
     private String context;
     private String date;
-    private Integer comment_type;
+    private Integer comment_level;
     private BigInteger service_order_id;
 }

@@ -8,15 +8,15 @@ import java.util.Date;
 
 @Data
 public class ServiceOrder implements Serializable {
-    private BigInteger service_order_id;
-    private BigInteger user_id;
-    private BigInteger type_id;
+    private BigInteger serviceOrderId;
+    private BigInteger userId;
+    private BigInteger typeId;
     private String address;
-    private BigInteger community_id;
-    private Date post_date;
-    private Date get_date;
+    private BigInteger communityId;
+    private Date postDate;
+    private Date getDate;
     private String phone;
-    private Integer is_finished;
-    private BigInteger house_keeper_id;
+    private Integer isFinished;
+    private BigInteger houseKeeperId;
 
 }

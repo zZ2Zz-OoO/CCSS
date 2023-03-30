@@ -7,10 +7,10 @@ import java.math.BigInteger;
 
 @Data
 public class ServiceComment implements Serializable {
-    private BigInteger comment_id;
-    private BigInteger user_id;
+    private BigInteger commentId;
+    private BigInteger userId;
     private String context;
     private String date;
-    private Integer comment_level;
-    private BigInteger service_order_id;
+    private Integer commentLevel;
+    private BigInteger serviceOrderId;
 }

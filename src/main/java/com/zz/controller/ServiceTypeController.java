@@ -10,15 +10,15 @@ import java.math.BigInteger;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Types")
+@RequestMapping("/types")
 public class ServiceTypeController {
 
     @Autowired
     private ServiceTypeService serviceTypeService;
 
     @PostMapping
-    public R<String> addServiceType(@RequestBody ServiceType ServiceType) {
-        boolean save = serviceTypeService.save(ServiceType);
+    public R<String> addServiceType(@RequestBody ServiceType servicetype) {
+        boolean save = serviceTypeService.save(servicetype);
         if (save) {
             return R.success("添加种类成功");
         }
@@ -27,9 +27,9 @@ public class ServiceTypeController {
         }
     }
 
-    @DeleteMapping("/{ServiceType_id}")
-    public R<String> deleteOne(@PathVariable BigInteger ServiceType_id) {
-        boolean b = serviceTypeService.removeById(ServiceType_id);
+    @DeleteMapping("/{serviceType_id}")
+    public R<String> deleteOne(@PathVariable BigInteger serviceType_id) {
+        boolean b = serviceTypeService.removeById(serviceType_id);
         if (b) {
             return R.success("删除成功");
         }
@@ -38,9 +38,9 @@ public class ServiceTypeController {
         }
     }
 
-    @GetMapping("/{ServiceType_id}")
-    public R<ServiceType> getById(@PathVariable BigInteger ServiceType_id) {
-        ServiceType ServiceType = serviceTypeService.getById(ServiceType_id);
+    @GetMapping("/{serviceType_id}")
+    public R<ServiceType> getById(@PathVariable BigInteger serviceType_id) {
+        ServiceType ServiceType = serviceTypeService.getById(serviceType_id);
         if (ServiceType != null) {
             return R.success(ServiceType);
         }

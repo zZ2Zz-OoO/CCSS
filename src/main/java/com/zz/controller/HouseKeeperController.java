@@ -1,7 +1,7 @@
 package com.zz.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zz.pojo.Housekeeper;
+import com.zz.pojo.HouseKeeper;
 import com.zz.pojo.R;
 import com.zz.service.HouseKeeperService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ public class HouseKeeperController {
     private HouseKeeperService houseKeeperService;
 
     @PostMapping("/login")
-    public R<Housekeeper> login(HttpServletRequest request, @RequestBody Housekeeper housekeeper) {
+    public R<HouseKeeper> login(HttpServletRequest request, @RequestBody HouseKeeper housekeeper) {
 
 
         String password = DigestUtils.md5DigestAsHex(housekeeper.getPassword().getBytes());
-        QueryWrapper<Housekeeper> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<HouseKeeper> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("house_keeper_name", housekeeper.getHouseKeeperName());
-        Housekeeper one = houseKeeperService.getOne(queryWrapper);
+        HouseKeeper one = houseKeeperService.getOne(queryWrapper);
 
         if (one == null) {
             return R.error("登录失败");
@@ -39,7 +39,7 @@ public class HouseKeeperController {
     }
 
     @PostMapping
-    public R<String> addHouseKeeper(@RequestBody Housekeeper housekeeper) {
+    public R<String> addHouseKeeper(@RequestBody HouseKeeper housekeeper) {
 
         housekeeper.setPassword(DigestUtils.md5DigestAsHex(housekeeper.getPassword().getBytes()));
         houseKeeperService.save(housekeeper);
@@ -48,13 +48,13 @@ public class HouseKeeperController {
     }
 
     @GetMapping
-    public R<List<Housekeeper>> getAll() {
-        List<Housekeeper> housekeepers = houseKeeperService.list();
+    public R<List<HouseKeeper>> getAll() {
+        List<HouseKeeper> housekeepers = houseKeeperService.list();
         return R.success(housekeepers);
     }
 
     @PutMapping
-    public R<String> update(@RequestBody Housekeeper housekeeper) {
+    public R<String> update(@RequestBody HouseKeeper housekeeper) {
         boolean flag = houseKeeperService.updateById(housekeeper);
         if (flag) {
             return R.success("修改成功");
@@ -65,8 +65,8 @@ public class HouseKeeperController {
     }
 
     @GetMapping("/{house_keeper_id}")
-    public R<Housekeeper> getById(@PathVariable BigInteger house_keeper_id) {
-        Housekeeper housekeeper = houseKeeperService.getById(house_keeper_id);
+    public R<HouseKeeper> getById(@PathVariable BigInteger house_keeper_id) {
+        HouseKeeper housekeeper = houseKeeperService.getById(house_keeper_id);
         if (housekeeper != null) {
             return R.success(housekeeper);
         }

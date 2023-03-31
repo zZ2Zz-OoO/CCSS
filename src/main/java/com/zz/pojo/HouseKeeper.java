@@ -10,7 +10,7 @@ import java.util.Date;
 
 
 @Data
-public class Housekeeper implements Serializable {
+public class HouseKeeper implements Serializable {
     @TableId(value = "house_keeper_id", type = IdType.ASSIGN_ID)
     private BigInteger houseKeepingId;
     private String houseKeeperName;

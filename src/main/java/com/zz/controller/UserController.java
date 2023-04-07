@@ -21,6 +21,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("/login")
+    public String index() {
+        return "HelloWorld";
+    }
+
     @PostMapping("/login")
     public R<User> login(HttpServletRequest request, @RequestBody User user) {
 
@@ -95,6 +100,4 @@ public class UserController {
         request.getSession().removeAttribute("user");
         return R.success("退出成功");
     }
-
-
 }

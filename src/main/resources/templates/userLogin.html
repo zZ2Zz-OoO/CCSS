@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" src="/static/js/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <script src="/static/js/vue.js"></script>
+</head>
+<body>
+<label id="root">
+    账号<input type="text" id="username" v-model="username">
+    密码<input type="password" id="password" v-model="password">
+    <button id="btnLogin" type="submit" value="登录" @click="login"></button>
+</label>
+<script>
+    new Vue({
+        el: '#root',
+        data: {
+            username: '',
+            password: ''
+        },
+        methods: {
+            login() {
+                axios({
+                    method: 'post',
+                    url: "http://localhost:8080/users/login",
+                    data: {
+                        userName: this.username,
+                        password: this.password
+                    }
+                }).then(res => {
+                    console.log(res.data)
+                    if (res.data.code === 1) {
+                        alert("登陆成功")
+                    }
+                })
+            }
+        }
+    })
+
+
+    // document.getElementById('btnLogin').onclick=function(){
+    //     const data = {
+    //         userName: 'zzzz',
+    //         password: '3'
+    //     };
+    //     axios.post('http://localhost:8080/users/login',data).then(res=>{
+    //         if (res.data.code===1){alert("登陆成功");}
+    //
+    //     })
+    // }
+</script>
+
+</body>
+</html>

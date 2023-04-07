@@ -18,6 +18,6 @@ public class User implements Serializable {
      private Sex sex;
      private String cardId;
      private String address;
-     private BigInteger addId;
+     private BigInteger communityId;
 
 }

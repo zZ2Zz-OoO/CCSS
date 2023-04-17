@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root">
+    欢迎用户&nbsp;{{ name }}
+    <el-button round @click="addUser">圆角按钮</el-button>
+    <el-table
+            :data="users"
+            border
+            style="width: 100%">
+        <el-table-column
+                fixed
+                prop="userId"
+                label="用户id"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="userName"
+                label="账号"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="password"
+                label="密码"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="realName"
+                label="真实姓名"
+                width="100">
+        </el-table-column>
+        <el-table-column
+                prop="cardId"
+                label="身份证号码"
+                width="300">
+        </el-table-column>
+        <el-table-column
+                prop="sex"
+                label="性别"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="communityId"
+                label="社区id"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="phone"
+                label="联系电话"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="address"
+                label="具体住址"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                fixed="right"
+                label="操作"
+                width="100">
+            <template slot-scope="scope">
+                <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
+                <el-button type="text" @click="remove(scope.row)">删除</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <el-dialog
+            title="修改用户"
+            :visible.sync="dialogVisible"
+            width="50%"
+            :before-close="handleClose">
+        <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="用户Id">
+                <el-input v-model="form.userId"></el-input>
+            </el-form-item>
+            <el-form-item label="账号">
+                <el-input v-model="form.userName"></el-input>
+            </el-form-item>
+            <el-form-item label="密码">
+                <el-input v-model="form.password"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+                <el-input v-model="form.realName"></el-input>
+            </el-form-item>
+            <el-form-item label="身份证号">
+                <el-input v-model="form.cardId"></el-input>
+            </el-form-item>
+            <el-form-item label="性别">
+                <el-input v-model="form.sex"></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话">
+                <el-input v-model="form.phone"></el-input>
+            </el-form-item>
+            <el-form-item label="具体住址">
+                <el-input v-model="form.address"></el-input>
+            </el-form-item>
+            <el-form-item label="社区号">
+                <el-input v-model="form.communityId"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit">修改</el-button>
+                <el-button @click="handleClose">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+    <el-dialog
+            title="添加用户"
+            :visible.sync="dialogVisible4Add"
+            width="50%"
+            :before-close="handleClose">
+        <el-form ref="form" :model="form1" label-width="80px">
+            <el-form-item label="账号">
+                <el-input v-model="form1.userName"></el-input>
+            </el-form-item>
+            <el-form-item label="密码">
+                <el-input v-model="form1.password"></el-input>
+            </el-form-item>
+            <el-form-item label="姓名">
+                <el-input v-model="form1.realName"></el-input>
+            </el-form-item>
+            <el-form-item label="身份证号">
+                <el-input v-model="form1.cardId"></el-input>
+            </el-form-item>
+            <el-form-item label="性别">
+                <el-input v-model="form1.sex"></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话">
+                <el-input v-model="form1.phone"></el-input>
+            </el-form-item>
+            <el-form-item label="具体住址">
+                <el-input v-model="form1.address"></el-input>
+            </el-form-item>
+            <el-form-item label="社区号">
+                <el-input v-model="form1.communityId"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onAdd">添加</el-button>
+                <el-button @click="handleClose">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+</div>
+<script type="module" src="/static/js/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/js/vue.js"></script>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: "#root",
+        data() {
+            return {
+                users: [],
+                dialogVisible: false,
+                dialogVisible4Add: false,
+                // userName1:this.sessionStorage.getItem("user"),
+                name: '',
+                form: {
+                    userId: '',
+                    userName: '',
+                    password: '',
+                    cardId: '',
+                    sex: '',
+                    phone: '',
+                    address: '',
+                    realName: '',
+                    communityId: ''
+                },
+                form1: {
+                    userName: '',
+                    password: '',
+                    cardId: '',
+                    sex: '',
+                    phone: '',
+                    address: '',
+                    realName: '',
+                    communityId: ''
+                }
+            }
+        },
+        created() {
+            this.getAll()
+            this.getName()
+        },
+        methods: {
+            getAll() {
+                var _this = this;
+                axios({
+                    method: "get",
+                    url: "http://localhost:8080/users"
+                }).then(res => {
+                    console.log(res.data.data)
+                    _this.users = res.data.data;
+                })
+            },
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {
+                    });
+            },
+            onSubmit() {
+                console.log(this.formData);
+                axios({
+                    method: "put",
+                    url: "http://localhost:8080/users",
+                    data: this.form
+                }).then(res => {
+                    if (res.data.code === 1) {
+                        alert("修改成功")
+                        this.dialogVisible = false
+                        this.getAll()
+                    } else {
+                        alert("修改失败")
+                    }
+                })
+            },
+            handleUpdate(row) {
+                var _this = this;
+
+                console.log(row.userId)
+                axios({
+                    method: "get",
+                    url: "http://localhost:8080/users/" + row.userId
+                }).then(res => {
+                    if (res.data.code === 1) {
+                        _this.form = res.data.data;
+                        this.dialogVisible = true;
+                    } else {
+                        alert(res.data.msg)
+                    }
+                })
+            },
+            addUser() {
+                this.dialogVisible4Add = true;
+            },
+            onAdd() {
+                axios({
+                    method: "post",
+                    url: "http://localhost:8080/users",
+                    data: this.form1
+                }).then(res => {
+                    if (res.data.code === 1) {
+                        this.getAll()
+                        alert("添加成功")
+                        this.dialogVisible4Add = false;
+                    } else {
+                        alert("添加失败")
+                    }
+                })
+            },
+            remove(row) {
+                console.log("111")
+                axios({
+                    method: "delete",
+                    url: "http://localhost:8080/users/" + row.userId
+                }).then(res => {
+                    if (res.data.code === 1) {
+                        alert("删除成功")
+                        this.getAll()
+                    } else {
+                        alert("删除失败")
+                    }
+                })
+            },
+            getName() {
+                // console.log(sessionStorage.getItem('user'));
+                this.name = JSON.parse(sessionStorage.getItem('user')).userName
+            }
+        }
+    })
+</script>
+</body>
+</html>

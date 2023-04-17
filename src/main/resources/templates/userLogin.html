@@ -5,16 +5,72 @@
     <title>Title</title>
     <script type="module" src="/static/js/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
+    <!--    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>-->
     <script src="/static/js/vue.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .input {
+            width: 300px;
+            line-height: 20px;
+            padding-bottom: 20px;
+            padding-left: 50px;
+        }
+
+        #username {
+            margin-top: 50px;
+        }
+
+        .container {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 300px;
+            width: 500px;
+            margin: auto;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
+        }
+
+        #tag {
+            display: inline-block;
+            width: 50px;
+            padding-left: 50px;
+        }
+
+        .btn {
+            width: 200px;
+        }
+
+        #btnLogin {
+            margin-left: 45px;
+        }
+
+    </style>
 </head>
 <body>
-<label id="root">
-    账号<input type="text" id="username" v-model="username">
-    密码<input type="password" id="password" v-model="password">
-    <button id="btnLogin" type="submit" value="登录" @click="login"></button>
-</label>
+<div class="container">
+    <label id="root">
+        <span id="tag">用户名</span>
+
+        <el-input placeholder="请输入内容" v-model="username" clearable class="input" id="username"></el-input>
+        <br>
+        <span id="tag">密&nbsp;&nbsp;码</span>
+        <el-input placeholder="请输入密码" v-model="password" show-password class="input"></el-input>
+        <!--    <button id="btnLogin" type="submit" value="登录" @click="login"></button>-->
+        <br>
+        <el-button type="primary" round @click="login" id="btnLogin" class="btn">登录</el-button>
+        <el-button type="primary" round @click="login" id="btnRegister" class="btn">注册</el-button>
+    </label>
+</div>
 <script>
     new Vue({
         el: '#root',
@@ -34,7 +90,11 @@
                 }).then(res => {
                     console.log(res.data)
                     if (res.data.code === 1) {
+                        sessionStorage.setItem('user', JSON.stringify(res.data.data))
                         alert("登陆成功")
+                        window.location.href = '/'
+                    } else {
+                        alert(res.data.msg);
                     }
                 })
             }

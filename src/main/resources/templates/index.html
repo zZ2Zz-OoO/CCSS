@@ -3,10 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <!--    启动时-->
+    <!--    <link rel="stylesheet" type="text/css" href="static/css/index.css">-->
+    <!--    开发时-->
+    <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
-<a href="templates/userLogin.html">用户登录</a>
-<a href="templates/houseKeeperLogin.html">家政登录</a>
+<div id="root">
+    <div class="header">
+        <!--        <a href="templates/userLogin.html">用户登录</a>-->
+        <el-button type="primary" plain class="btn" id="houseKeeperLogin" @click="houseKeeperLogin">商家登录</el-button>
+        <el-button type="primary" plain class="btn" id="userLogin" @click="userLogin">用户登录</el-button>
+        <el-button type="primary" plain class="btn" @click="test">用户管理</el-button>
+        <el-button type="primary" plain class="btn" @click="test1">社区管理</el-button>
+        <el-button type="primary" plain class="btn" @click="test2">商家管理</el-button>
+        <el-button type="primary" plain class="btn" @click="test3">订单管理</el-button>
+        <el-button type="primary" plain class="btn" @click="test4">服务管理</el-button>
+        <el-button type="primary" plain class="btn" @click="test5">服务评价管理</el-button>
 
+        <button id="logout" @click="logout">退出</button>
+    </div>
+</div>
+<script type="module" src="/static/js/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!--    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>-->
+<script src="/static/js/vue.js"></script>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: "#root",
+        methods: {
+            userLogin() {
+                window.location.href = "templates/userLogin.html"
+            },
+            houseKeeperLogin() {
+                window.location.href = "templates/houseKeeperLogin.html"
+            },
+            test() {
+                window.location.href = "templates/userManager.html"
+            },
+            logout() {
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:8080/users/logout',
+                }).then(res => {
+                    if (res.data.code === 1) {
+                        alert("退出成功")
+                    } else {
+                        alert("请重试")
+                    }
+                })
+            },
+            test4() {
+                window.location.href = "templates/serviceTypeManager.html"
+
+            },
+            test3() {
+                window.location.href = "templates/serviceOrderManager.html"
+
+            },
+            test1() {
+                window.location.href = "templates/communityManager.html"
+
+            },
+            test2() {
+                window.location.href = "templates/houseKeeperManager.html"
+
+            },
+            test5() {
+                window.location.href = "templates/serviceCommentManager.html"
+
+            }
+        }
+
+    })
+</script>
 </body>
 </html>

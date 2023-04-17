@@ -7,45 +7,45 @@
 <body>
 <div id="root">
     欢迎用户&nbsp;{{ name }}
-    <el-button round @click="addUser">圆角按钮</el-button>
+    <el-button round @click="addOrder">圆角按钮</el-button>
     <el-table
-            :data="users"
+            :data="orders"
             border
             style="width: 100%">
         <el-table-column
                 fixed
+                prop="serviceOrderId"
+                label="订单编号"
+                width="120">
+        </el-table-column>
+        <el-table-column
                 prop="userId"
-                label="用户id"
+                label="发布用户"
                 width="120">
         </el-table-column>
         <el-table-column
-                prop="userName"
-                label="账号"
+                prop="typeId"
+                label="服务类型"
                 width="120">
         </el-table-column>
         <el-table-column
-                prop="password"
-                label="密码"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="realName"
-                label="真实姓名"
+                prop="address"
+                label="住址"
                 width="100">
         </el-table-column>
         <el-table-column
-                prop="cardId"
-                label="身份证号码"
-                width="300">
+                prop="communityId"
+                label="社区编号"
+                width="100">
         </el-table-column>
         <el-table-column
-                prop="sex"
-                label="性别"
+                prop="postDate"
+                label="发布日期"
                 width="120">
         </el-table-column>
         <el-table-column
-                prop="communityId"
-                label="社区id"
+                prop="getDate"
+                label="接单日期"
                 width="120">
         </el-table-column>
         <el-table-column
@@ -54,13 +54,14 @@
                 width="120">
         </el-table-column>
         <el-table-column
-                prop="address"
-                label="具体住址"
+                prop="isFinished"
+                label="是否完成"
                 width="120">
         </el-table-column>
         <el-table-column
                 fixed="right"
-                label="操作"
+                prop="houseKeeperId"
+                label="家政公司"
                 width="100">
             <template slot-scope="scope">
                 <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
@@ -69,37 +70,40 @@
         </el-table-column>
     </el-table>
     <el-dialog
-            title="修改用户"
+            title="修改账单"
             :visible.sync="dialogVisible"
             width="50%"
             :before-close="handleClose">
         <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="订单号">
+                <el-input v-model="form.serviceOrderId"></el-input>
+            </el-form-item>
             <el-form-item label="用户Id">
                 <el-input v-model="form.userId"></el-input>
             </el-form-item>
-            <el-form-item label="账号">
-                <el-input v-model="form.userName"></el-input>
+            <el-form-item label="服务Id">
+                <el-input v-model="form.typeId"></el-input>
             </el-form-item>
-            <el-form-item label="密码">
-                <el-input v-model="form.password"></el-input>
-            </el-form-item>
-            <el-form-item label="姓名">
-                <el-input v-model="form.realName"></el-input>
-            </el-form-item>
-            <el-form-item label="身份证号">
-                <el-input v-model="form.cardId"></el-input>
-            </el-form-item>
-            <el-form-item label="性别">
-                <el-input v-model="form.sex"></el-input>
-            </el-form-item>
-            <el-form-item label="联系电话">
-                <el-input v-model="form.phone"></el-input>
-            </el-form-item>
-            <el-form-item label="具体住址">
+            <el-form-item label="地址">
                 <el-input v-model="form.address"></el-input>
             </el-form-item>
             <el-form-item label="社区号">
                 <el-input v-model="form.communityId"></el-input>
+            </el-form-item>
+            <el-form-item label="发布日期">
+                <el-input v-model="form.postDate"></el-input>
+            </el-form-item>
+            <el-form-item label="接单日期">
+                <el-input v-model="form.getDate"></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话">
+                <el-input v-model="form.phone"></el-input>
+            </el-form-item>
+            <el-form-item label="是否完成">
+                <el-input v-model="form.isFinished"></el-input>
+            </el-form-item>
+            <el-form-item label="家政编号">
+                <el-input v-model="form.houseKeeperId"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit">修改</el-button>
@@ -108,34 +112,37 @@
         </el-form>
     </el-dialog>
     <el-dialog
-            title="添加用户"
+            title="添加账单"
             :visible.sync="dialogVisible4Add"
             width="50%"
             :before-close="handleClose">
         <el-form ref="form" :model="form1" label-width="80px">
-            <el-form-item label="账号">
-                <el-input v-model="form1.userName"></el-input>
+            <el-form-item label="用户Id">
+                <el-input v-model="form1.userId"></el-input>
             </el-form-item>
-            <el-form-item label="密码">
-                <el-input v-model="form1.password"></el-input>
+            <el-form-item label="服务类型">
+                <el-input v-model="form1.typeId"></el-input>
             </el-form-item>
-            <el-form-item label="姓名">
-                <el-input v-model="form1.realName"></el-input>
-            </el-form-item>
-            <el-form-item label="身份证号">
-                <el-input v-model="form1.cardId"></el-input>
-            </el-form-item>
-            <el-form-item label="性别">
-                <el-input v-model="form1.sex"></el-input>
-            </el-form-item>
-            <el-form-item label="联系电话">
-                <el-input v-model="form1.phone"></el-input>
-            </el-form-item>
-            <el-form-item label="具体住址">
+            <el-form-item label="地址">
                 <el-input v-model="form1.address"></el-input>
             </el-form-item>
             <el-form-item label="社区号">
                 <el-input v-model="form1.communityId"></el-input>
+            </el-form-item>
+            <el-form-item label="发布日期">
+                <el-input v-model="form1.postDate"></el-input>
+            </el-form-item>
+            <el-form-item label="接单日期">
+                <el-input v-model="form1.getDate"></el-input>
+            </el-form-item>
+            <el-form-item label="联系电话">
+                <el-input v-model="form1.phone"></el-input>
+            </el-form-item>
+            <el-form-item label="是否完成">
+                <el-input v-model="form1.isFinished"></el-input>
+            </el-form-item>
+            <el-form-item label="家政编号">
+                <el-input v-model="form1.houseKeeperId"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="onAdd">添加</el-button>
@@ -144,7 +151,8 @@
         </el-form>
     </el-dialog>
 </div>
-<!--<script type="module" src="static/js/axios.min.js"></script>-->
+
+<script type="module" src="/js/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/static/js/vue.js"></script>
 <!-- 引入样式 -->
@@ -156,31 +164,32 @@
         el: "#root",
         data() {
             return {
-                users: [],
                 dialogVisible: false,
                 dialogVisible4Add: false,
-                // userName1:this.sessionStorage.getItem("user"),
+                orders: [],
                 name: '',
                 form: {
+                    serviceOrderId: '',
                     userId: '',
-                    userName: '',
-                    password: '',
-                    cardId: '',
-                    sex: '',
-                    phone: '',
+                    typeId: '',
                     address: '',
-                    realName: '',
-                    communityId: ''
+                    communityId: '',
+                    postDate: '',
+                    getDate: '',
+                    phone: '',
+                    isFinished: '',
+                    houseKeeperId: ''
                 },
                 form1: {
-                    userName: '',
-                    password: '',
-                    cardId: '',
-                    sex: '',
-                    phone: '',
+                    userId: '',
+                    typeId: '',
                     address: '',
-                    realName: '',
-                    communityId: ''
+                    communityId: '',
+                    postDate: '',
+                    getDate: '',
+                    phone: '',
+                    isFinished: '',
+                    houseKeeperId: ''
                 }
             }
         },
@@ -193,10 +202,10 @@
                 var _this = this;
                 axios({
                     method: "get",
-                    url: "http://localhost:8080/users"
+                    url: "http://localhost:8080/orders"
                 }).then(res => {
                     console.log(res.data.data)
-                    _this.users = res.data.data;
+                    _this.orders = res.data.data;
                 })
             },
             handleClose(done) {
@@ -211,7 +220,7 @@
                 console.log(this.formData);
                 axios({
                     method: "put",
-                    url: "http://localhost:8080/users",
+                    url: "http://localhost:8080/orders",
                     data: this.form
                 }).then(res => {
                     if (res.data.code === 1) {
@@ -224,12 +233,10 @@
                 })
             },
             handleUpdate(row) {
-                var _this = this;
-
-                console.log(row.userId)
+                var _this = this
                 axios({
                     method: "get",
-                    url: "http://localhost:8080/users/" + row.userId
+                    url: "http://localhost:8080/orders/" + row.serviceOrderId
                 }).then(res => {
                     if (res.data.code === 1) {
                         _this.form = res.data.data;
@@ -239,13 +246,13 @@
                     }
                 })
             },
-            addUser() {
+            addOrder() {
                 this.dialogVisible4Add = true;
             },
             onAdd() {
                 axios({
                     method: "post",
-                    url: "http://localhost:8080/users",
+                    url: "http://localhost:8080/orders",
                     data: this.form1
                 }).then(res => {
                     if (res.data.code === 1) {
@@ -258,10 +265,9 @@
                 })
             },
             remove(row) {
-                console.log("111")
                 axios({
                     method: "delete",
-                    url: "http://localhost:8080/users/" + row.userId
+                    url: "http://localhost:8080/orders/" + row.serviceOrderId
                 }).then(res => {
                     if (res.data.code === 1) {
                         alert("删除成功")

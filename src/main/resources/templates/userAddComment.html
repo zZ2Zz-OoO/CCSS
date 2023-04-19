@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root">
+    <el-table
+            :data="orders"
+            border
+            style="width: 100%">
+        <el-table-column
+                fixed
+                prop="serviceOrderId"
+                label="订单号"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="typeId"
+                label="服务类型"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="postDate"
+                label="发布日期"
+                width="120">
+        </el-table-column>
+        <el-table-column
+                prop="getDate"
+                label="接单日期"
+                width="100">
+        </el-table-column>
+        <el-table-column
+                prop="houseKeeperId"
+                label="家政名称"
+                width="300">
+        </el-table-column>
+        <el-table-column
+                fixed="right"
+                label="操作"
+                width="100">
+            <template slot-scope="scope">
+                <el-button type="text" @click="comment(scope.row)">立即评价</el-button>
+                <el-button type="text" @click="more(scope.row)">查看评价</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+    <el-dialog
+            title="添加评价"
+            :visible.sync="dialogVisible"
+            width="50%"
+            :before-close="handleClose">
+        <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="评价等级">
+                <el-input v-model="form.commentLevel"></el-input>
+            </el-form-item>
+            <el-form-item label="评论">
+                <el-input v-model="form.context"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit">立即评价</el-button>
+                <el-button @click="handleClose">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+    <el-dialog
+            title="查看评价"
+            :visible.sync="dialogVisible4more"
+            width="50%"
+            :before-close="handleClose">
+        <el-form ref="form" :model="form1" label-width="80px">
+            <el-form-item label="评价等级">
+                <el-input v-model="form1.commentLevel"></el-input>
+            </el-form-item>
+            <el-form-item label="评论">
+                <el-input v-model="form1.context"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button @click="handleClose">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="/static/js/vue.js"></script>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script>
+    new Vue({
+        el: '#root',
+        data() {
+            return {
+                orders: [],
+                dialogVisible: false,
+                dialogVisible4more: false,
+                form: {
+                    userId: '',
+                    context: '',
+                    date: '',
+                    commentLevel: '',
+                    serviceOrderId: ''
+                },
+                form1: {
+                    commentLevel: '',
+                    context: ''
+                }
+            }
+        },
+        created() {
+            this.getAll()
+            this.getUserId()
+        },
+        methods: {
+            getAll() {
+                const userId = JSON.parse(sessionStorage.getItem('user')).userId
+                var _this = this;
+
+                axios({
+                    method: 'get',
+                    url: 'http://localhost:8080/orders/user/' + userId
+                }).then(res => {
+                    console.log(res.data.data);
+                    if (res.data.code === 1) {
+                        _this.orders = res.data.data
+                    } else {
+                        alert("无订单请重试")
+                    }
+                })
+            },
+            onSubmit() {
+                this.getdate()
+                console.log(this.form.serviceOrderId);
+                axios({
+                    method: 'post',
+                    url: 'http://localhost:8080/comments',
+                    data: this.form
+                }).then(res => {
+                    if (res.data.code === 1) {
+                        alert("评论成功")
+                        this.dialogVisible = false
+                    } else {
+                        alert(res.data.msg)
+                    }
+                })
+            },
+            comment(row) {
+                this.dialogVisible = true
+                this.form.serviceOrderId = row.serviceOrderId
+            },
+            getdate() {
+                //获取当前时间并打印
+                var _this = this;
+                let yy = new Date().getFullYear();
+                let mm = new Date().getMonth() + 1;
+                let dd = new Date().getDate();
+                let hh = new Date().getHours();
+                let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes();
+                let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds();
+                _this.gettime = yy + '/' + mm + '/' + dd + ' ' + hh + ':' + mf + ':' + ss;
+                this.form.date = _this.gettime
+            },
+            handleClose(done) {
+                this.$confirm('确认关闭？')
+                    .then(_ => {
+                        done();
+                    })
+                    .catch(_ => {
+                    });
+            },
+            getUserId() {
+                this.form.userId = JSON.parse(sessionStorage.getItem('user')).userId
+            },
+            more(row) {
+                var _this = this;
+                console.log(row.serviceOrderId);
+                axios({
+                    method: 'get',
+                    url: 'http://localhost:8080/comments/' + row.serviceOrderId
+                }).then(res => {
+                    if (res.data.code === 1) {
+                        _this.form1 = res.data.data
+                        this.dialogVisible4more = true
+                    } else {
+                        alert(res.data.msg)
+                    }
+                })
+            }
+        }
+
+    })
+</script>
+</body>
+</html>

@@ -6,23 +6,67 @@
     <!--    启动时-->
     <!--    <link rel="stylesheet" type="text/css" href="static/css/index.css">-->
     <!--    开发时-->
-    <link rel="stylesheet" type="text/css" href="index.css">
+    <!--    <link rel="stylesheet" type="text/css" href="index.css">-->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .el-header {
+            background-color: #B3C0D1;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            background-color: #D3DCE6;
+            color: #333;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .el-main {
+            background-color: #E9EEF3;
+            color: #333;
+            text-align: center;
+            line-height: 160px;
+        }
+
+        .el-button {
+            width: 150px;
+        }
+
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+    </style>
 </head>
 <body>
 <div id="root">
-    <div class="header">
-        <!--        <a href="templates/userLogin.html">用户登录</a>-->
-        <el-button type="primary" plain class="btn" id="houseKeeperLogin" @click="houseKeeperLogin">商家登录</el-button>
-        <el-button type="primary" plain class="btn" id="userLogin" @click="userLogin">用户登录</el-button>
-        <el-button type="primary" plain class="btn" @click="test">用户管理</el-button>
-        <el-button type="primary" plain class="btn" @click="test1">社区管理</el-button>
-        <el-button type="primary" plain class="btn" @click="test2">商家管理</el-button>
-        <el-button type="primary" plain class="btn" @click="test3">订单管理</el-button>
-        <el-button type="primary" plain class="btn" @click="test4">服务管理</el-button>
-        <el-button type="primary" plain class="btn" @click="test5">服务评价管理</el-button>
-
-        <button id="logout" @click="logout">退出</button>
-    </div>
+    <!--        <a href="templates/userLogin.html">用户登录</a>-->
+    <el-container>
+        <el-header>
+            <el-button type="primary" plain class="btn" id="houseKeeperLogin" @click="houseKeeperLogin">商家登录</el-button>
+            <el-button type="primary" plain class="btn" id="userLogin" @click="userLogin">用户登录</el-button>
+        </el-header>
+        <el-container>
+            <el-aside width="200px">
+                <el-button type="primary" plain class="btn" @click="test">用户管理</el-button>
+                <el-button type="primary" plain class="btn" @click="test1">社区管理</el-button>
+                <el-button type="primary" plain class="btn" @click="test2">商家管理</el-button>
+                <el-button type="primary" plain class="btn" @click="test3">订单管理</el-button>
+                <el-button type="primary" plain class="btn" @click="test4">服务管理</el-button>
+                <el-button type="primary" plain class="btn" @click="test5">服务评价管理</el-button>
+                <el-button type="primary" plain class="btn" @click="test6">发布任务</el-button>
+                <el-button type="primary" plain class="btn" @click="test7">用户信息</el-button>
+                <el-button type="primary" plain class="btn" @click="test8">用户评论</el-button>
+            </el-aside>
+            <el-main>Main</el-main>
+        </el-container>
+    </el-container>
+    <button id="logout" @click="logout">退出</button>
 </div>
 <script type="module" src="/static/js/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -43,7 +87,7 @@
                 window.location.href = "templates/houseKeeperLogin.html"
             },
             test() {
-                window.location.href = "templates/userManager.html"
+                window.location.href = "templates/managerUser.html"
             },
             logout() {
                 axios({
@@ -52,29 +96,42 @@
                 }).then(res => {
                     if (res.data.code === 1) {
                         alert("退出成功")
+                        sessionStorage.removeItem('user')
                     } else {
                         alert("请重试")
                     }
                 })
             },
             test4() {
-                window.location.href = "templates/serviceTypeManager.html"
+                window.location.href = "templates/managerServiceType.html"
 
             },
             test3() {
-                window.location.href = "templates/serviceOrderManager.html"
+                window.location.href = "templates/managerServiceOrder.html"
 
             },
             test1() {
-                window.location.href = "templates/communityManager.html"
+                window.location.href = "templates/managerCommunity.html"
 
             },
             test2() {
-                window.location.href = "templates/houseKeeperManager.html"
+                window.location.href = "templates/managerHouseKeeper.html"
 
             },
             test5() {
-                window.location.href = "templates/serviceCommentManager.html"
+                window.location.href = "templates/managerServiceComment.html"
+
+            },
+            test6() {
+                window.location.href = "templates/userAddOrder.html"
+
+            },
+            test7() {
+                window.location.href = "templates/userInfo.html"
+
+            },
+            test8() {
+                window.location.href = "templates/userAddComment.html"
 
             }
         }

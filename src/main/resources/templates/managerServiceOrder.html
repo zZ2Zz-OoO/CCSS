@@ -3,72 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .el-header {
+            background-color: #B3C0D1;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+        }
+
+        .el-aside {
+            background-color: #D3DCE6;
+            color: #333;
+            text-align: center;
+            line-height: 200px;
+        }
+
+        .el-main {
+            background-color: #E9EEF3;
+            color: #333;
+            text-align: center;
+            line-height: 160px;
+        }
+
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+    </style>
 </head>
 <body>
 <div id="root">
-    欢迎用户&nbsp;{{ name }}
-    <el-button round @click="addOrder">圆角按钮</el-button>
-    <el-table
-            :data="orders"
-            border
-            style="width: 100%">
-        <el-table-column
-                fixed
-                prop="serviceOrderId"
-                label="订单编号"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="userId"
-                label="发布用户"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="typeId"
-                label="服务类型"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="address"
-                label="住址"
-                width="100">
-        </el-table-column>
-        <el-table-column
-                prop="communityId"
-                label="社区编号"
-                width="100">
-        </el-table-column>
-        <el-table-column
-                prop="postDate"
-                label="发布日期"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="getDate"
-                label="接单日期"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="phone"
-                label="联系电话"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="isFinished"
-                label="是否完成"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                fixed="right"
-                prop="houseKeeperId"
-                label="家政公司"
-                width="100">
-            <template slot-scope="scope">
-                <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
-                <el-button type="text" @click="remove(scope.row)">删除</el-button>
-            </template>
-        </el-table-column>
-    </el-table>
+    <el-container>
+        <el-header>欢迎用户&nbsp;{{ name }}</el-header>
+        <el-container>
+            <el-aside width="200px">Aside</el-aside>
+            <!--            <el-button round @click="addOrder">圆角按钮</el-button>-->
+            <el-main>
+                <el-table
+                        :data="orders"
+                        border
+                        style="width: 100%">
+                    <el-table-column
+                            fixed
+                            prop="serviceOrderId"
+                            label="订单编号"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="userId"
+                            label="发布用户"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="typeId"
+                            label="服务类型"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="address"
+                            label="住址"
+                            width="100">
+                    </el-table-column>
+                    <el-table-column
+                            prop="communityId"
+                            label="社区编号"
+                            width="100">
+                    </el-table-column>
+                    <el-table-column
+                            prop="postDate"
+                            label="发布日期"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="getDate"
+                            label="接单日期"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="phone"
+                            label="联系电话"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+                            prop="isFinished"
+                            label="是否完成"
+                            width="120">
+                    </el-table-column>
+                    <el-table-column
+
+                            prop="houseKeeperId"
+                            label="家政公司"
+                            width="100">
+                    </el-table-column>
+                    <el-table-column
+                            fixed="right"
+                            label="操作"
+                            width="100">
+                        <template slot-scope="scope">
+                            <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
+                            <el-button type="text" @click="remove(scope.row)">删除</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-main>
+        </el-container>
+    </el-container>
+
+    <!--    <el-button round @click="addOrder">圆角按钮</el-button>-->
+    <!--    <el-table-->
+    <!--            :data="orders"-->
+    <!--            border-->
+    <!--            style="width: 100%">-->
+    <!--        <el-table-column-->
+    <!--                fixed-->
+    <!--                prop="serviceOrderId"-->
+    <!--                label="订单编号"-->
+    <!--                width="120">-->
+    <!--        </el-table-column>-->
+    <!--        <el-table-column-->
+    <!--                prop="userId"-->
+    <!--                label="发布用户"-->
+    <!--                width="120">-->
+    <!--        </el-table-column>-->
+    <!--        <el-table-column-->
+    <!--                prop="typeId"-->
+    <!--                label="服务类型"-->
+    <!--                width="120">-->
+    <!--        </el-table-column>-->
+    <!--        <el-table-column-->
+    <!--                prop="address"-->
+    <!--                label="住址"-->
+    <!--                width="100">-->
+    <!--        </el-table-column>-->
+    <!--        <el-table-column-->
+    <!--                prop="communityId"-->
+    <!--                label="社区编号"-->
+    <!--                width="100">-->
+    <!--        </el-table-column>-->
+    <!--        <el-table-column-->
+    <!--                prop="postDate"-->
+    <!--                label="发布日期"-->
+    <!--                width="120">-->
+    <!--        </el-table-column>-->
+    <!--        <el-table-column-->
+    <!--                prop="getDate"-->
+    <!--                label="接单日期"-->
+    <!--                width="120">-->
+    <!--        </el-table-column>-->
+    <!--        <el-table-column-->
+    <!--                prop="phone"-->
+    <!--                label="联系电话"-->
+    <!--                width="120">-->
+    <!--        </el-table-column>-->
+    <!--        <el-table-column-->
+    <!--                prop="isFinished"-->
+    <!--                label="是否完成"-->
+    <!--                width="120">-->
+    <!--        </el-table-column>-->
+    <!--        <el-table-column-->
+    <!--                fixed="right"-->
+    <!--                prop="houseKeeperId"-->
+    <!--                label="家政公司"-->
+    <!--                width="100">-->
+    <!--            <template slot-scope="scope">-->
+    <!--                <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>-->
+    <!--                <el-button type="text" @click="remove(scope.row)">删除</el-button>-->
+    <!--            </template>-->
+    <!--        </el-table-column>-->
+    <!--    </el-table>-->
     <el-dialog
             title="修改账单"
             :visible.sync="dialogVisible"

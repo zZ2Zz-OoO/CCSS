@@ -1,5 +1,6 @@
 package com.zz.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.pojo.R;
 import com.zz.pojo.ServiceOrder;
 import com.zz.service.ServiceOrderService;
@@ -38,12 +39,25 @@ public class ServiceOrderServiceController {
     }
 
     @GetMapping("/{serviceOrder_id}")
-    public R<ServiceOrder> getById(@PathVariable BigInteger serviceOrder_id) {
+    public R<ServiceOrder> getById(@PathVariable Integer serviceOrder_id) {
         ServiceOrder ServiceOrder = serviceOrderService.getById(serviceOrder_id);
         if (ServiceOrder != null) {
             return R.success(ServiceOrder);
         }
         return R.error("无此订单");
+    }
+
+    @GetMapping("/user/{userId}")
+    public R<List<ServiceOrder>> getByUserId(@PathVariable Integer userId) {
+//        List<ServiceOrder> ServiceOrder = serviceOrderService.list();
+        QueryWrapper<ServiceOrder> QueryWrapper = new QueryWrapper<>();
+        QueryWrapper.eq("user_id", userId).eq("is_finished", "1");
+        List<ServiceOrder> ServiceOrders = serviceOrderService.list(QueryWrapper);
+
+        if (ServiceOrders != null) {
+            return R.success(ServiceOrders);
+        }
+        return R.error("无订单");
     }
 
     @GetMapping

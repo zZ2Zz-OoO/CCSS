@@ -19,5 +19,6 @@ public class ServiceOrder implements Serializable {
     private String phone;
     private Integer isFinished;
     private Integer houseKeeperId;
+    private String info;
 
 }

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ServiceOrderServiceImpl extends ServiceImpl<ServiceOrderServiceMapper, ServiceOrder> implements ServiceOrderService {
+
 }

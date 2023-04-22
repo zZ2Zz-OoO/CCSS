@@ -14,17 +14,11 @@
             color: #333;
             text-align: center;
             line-height: 60px;
-        }
-
-        .el-aside {
-            background-color: #D3DCE6;
-            color: #333;
-            text-align: center;
-            line-height: 200px;
+            padding: 0 !important;
         }
 
         .el-main {
-            background-color: #E9EEF3;
+            /*background-color: #FFE4C4;*/
             color: #333;
             text-align: center;
             line-height: 160px;
@@ -33,17 +27,54 @@
         body > .el-container {
             margin-bottom: 40px;
         }
+
+        .el-menu-item:hover {
+            background-color: #8fbc8f !important;
+        }
+
+        .el-submenu > template:hover {
+            background-color: #8fbc8f !important;
+        }
+
+        .only:hover {
+            background-color: #8fbc8f !important;
+
+        }
+
+        #Info {
+            margin-left: 600px;
+        }
     </style>
 
 </head>
 <body>
 <div id="root">
     <el-container>
-        <el-header>Header</el-header>
-        <el-container>
-            <el-aside width="200px">Aside</el-aside>
-            <el-main>Main</el-main>
-        </el-container>
+        <el-header>
+            <!--            <div class="line"></div>-->
+            <el-menu
+                    :default-active="activeIndex2"
+                    class="el-menu-demo"
+                    mode="horizontal"
+                    @select="handleSelect"
+                    background-color="#F5DEB3"
+                    text-color="BLACK"
+                    active-text-color="black">
+                <el-menu-item index="1" @click="moveToUser">用户管理</el-menu-item>
+                <el-menu-item index="2" @click="moveToKeeper">商家管理</el-menu-item>
+                <el-menu-item index="3" @click="moveToOrder">订单管理</el-menu-item>
+                <el-menu-item index="4" @click="moveToType">服务管理</el-menu-item>
+                <el-menu-item index="5" @click="moveToComment">服务评价管理</el-menu-item>
+                <el-menu-item index="6" @click="moveToCheck">认证管理</el-menu-item>
+                <el-button id="Info" type="info" icon="el-icon-user-solid" style="background-color: #8fbc8f;"
+                           @click="Info">{{ name }}
+                </el-button>
+
+            </el-menu>
+
+        </el-header>
+
+        <el-main></el-main>
     </el-container>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -54,7 +85,59 @@
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
     new Vue({
-        el: '#root'
+        el: '#root',
+        data() {
+            return {
+                name: '',
+                activeIndex2: '1'
+            }
+        },
+        created() {
+            // this.checkLogin()
+            // console.log(sessionStorage.getItem('user')== null);
+            this.getName()
+        },
+        methods: {
+            moveToOrder() {
+                window.location.href = "managerServiceOrder.html"
+            },
+            moveToUser() {
+                window.location.href = "managerUser.html"
+
+            },
+            moveToKeeper() {
+                window.location.href = "managerHouseKeeper.html"
+
+            },
+            moveToType() {
+                window.location.href = "managerServiceType.html"
+
+            },
+            moveToComment() {
+                window.location.href = "managerServiceComment.html"
+
+            },
+            moveToCheck() {
+                window.location.href = "managerServiceOrder.html"
+
+            },
+            getName() {
+                this.name = JSON.parse(sessionStorage.getItem('user')).userName
+            },
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            checkLogin() {
+
+                if (sessionStorage.getItem('user') == null) {
+                    alert("请先登录")
+                    window.location.href = "userLogin.html"
+                }
+            },
+            Info() {
+                window.location.href = "userInfo.html"
+            }
+        }
     })
 </script>
 </body>

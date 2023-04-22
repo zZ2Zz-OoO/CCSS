@@ -10,7 +10,6 @@ import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigInteger;
 import java.util.List;
 
 
@@ -21,10 +20,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/login")
-    public String index() {
-        return "HelloWorld";
-    }
 
     @PostMapping("/login")
     public R<User> login(HttpServletRequest request, @RequestBody User user) {
@@ -44,7 +39,10 @@ public class UserController {
         }
 
         request.getSession().setAttribute("user", one.getUserId());
-        return R.success(one);
+        User user1 = new User();
+        user1.setUserId(one.getUserId());
+        user1.setUserName(one.getUserName());
+        return R.success(user1);
     }
 
 
@@ -59,7 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/{user_id}")
-    public R<User> getById(@PathVariable BigInteger user_id) {
+    public R<User> getById(@PathVariable Integer user_id) {
         User user = userService.getById(user_id);
         if (user != null) {
             return R.success(user);
@@ -85,7 +83,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{user_id}")
-    public R<String> delete(@PathVariable BigInteger user_id) {
+    public R<String> delete(@PathVariable Integer user_id) {
         boolean b = userService.removeById(user_id);
         if (b) {
             return R.success("删除成功");
@@ -97,7 +95,14 @@ public class UserController {
 
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request) {
-        request.getSession().removeAttribute("user");
-        return R.success("退出成功");
+        System.out.println(request.getSession().getAttribute("user"));
+        if (request.getSession().getAttribute("user") == null) {
+
+            return R.error("请勿重复退出");
+        }
+        else {
+            request.getSession().removeAttribute("user");
+            return R.success("退出成功");
+        }
     }
 }

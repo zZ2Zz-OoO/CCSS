@@ -3,71 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .el-header {
+            background-color: #B3C0D1;
+            color: #333;
+            text-align: center;
+            line-height: 60px;
+            padding: 0 !important;
+        }
+
+        .el-main {
+            /*background-color: #FFE4C4;*/
+            color: #333;
+            /*text-align: center;*/
+            /*line-height: 160px;*/
+        }
+
+        body > .el-container {
+            margin-bottom: 40px;
+        }
+
+        .el-menu-item:hover {
+            background-color: #8fbc8f !important;
+        }
+
+        .el-submenu > template:hover {
+            background-color: #8fbc8f !important;
+        }
+
+        .only:hover {
+            background-color: #8fbc8f !important;
+
+        }
+
+        #Info {
+            margin-left: 600px;
+        }
+    </style>
 </head>
 <body>
 <div id="root">
-    欢迎用户&nbsp;{{ name }}
-    <el-button round @click="addUser">圆角按钮</el-button>
-    <el-table
-            :data="users"
-            border
-            style="width: 100%">
-        <el-table-column
-                fixed
-                prop="userId"
-                label="用户id"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="userName"
-                label="账号"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="password"
-                label="密码"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="realName"
-                label="真实姓名"
-                width="100">
-        </el-table-column>
-        <el-table-column
-                prop="cardId"
-                label="身份证号码"
-                width="300">
-        </el-table-column>
-        <el-table-column
-                prop="sex"
-                label="性别"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="communityId"
-                label="社区id"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="phone"
-                label="联系电话"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                prop="address"
-                label="具体住址"
-                width="120">
-        </el-table-column>
-        <el-table-column
-                fixed="right"
-                label="操作"
-                width="100">
-            <template slot-scope="scope">
-                <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
-                <el-button type="text" @click="remove(scope.row)">删除</el-button>
-            </template>
-        </el-table-column>
-    </el-table>
+    <el-container>
+        <el-header>
+            <!--            <div class="line"></div>-->
+            <el-menu
+                    :default-active="activeIndex2"
+                    class="el-menu-demo"
+                    mode="horizontal"
+                    @select="handleSelect"
+                    background-color="#F5DEB3"
+                    text-color="BLACK"
+                    active-text-color="black">
+                <el-menu-item index="1" @click="moveToUser">用户管理</el-menu-item>
+                <el-menu-item index="2" @click="moveToKeeper">商家管理</el-menu-item>
+                <el-menu-item index="3" @click="moveToOrder">订单管理</el-menu-item>
+                <el-menu-item index="4" @click="moveToType">服务管理</el-menu-item>
+                <el-menu-item index="5" @click="moveToComment">服务评价管理</el-menu-item>
+                <el-menu-item index="6" @click="moveToCheck">认证管理</el-menu-item>
+                <el-button id="Info" type="info" icon="el-icon-user-solid" style="background-color: #8fbc8f;"
+                           @click="Info">{{ name }}
+                </el-button>
+
+            </el-menu>
+
+        </el-header>
+
+        <el-main>
+            <el-button round @click="addUser">圆角按钮</el-button>
+            <el-table
+                    :data="users"
+                    border
+                    style="width: 100%;
+                    margin-top: 20px">
+                <el-table-column
+                        fixed
+                        prop="userId"
+                        label="用户id"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="userName"
+                        label="账号"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="password"
+                        label="密码"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="realName"
+                        label="真实姓名"
+                        width="100">
+                </el-table-column>
+                <el-table-column
+                        prop="cardId"
+                        label="身份证号码"
+                        width="300">
+                </el-table-column>
+                <el-table-column
+                        prop="sex"
+                        label="性别"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="communityId"
+                        label="社区id"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="phone"
+                        label="联系电话"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        prop="address"
+                        label="具体住址"
+                        width="120">
+                </el-table-column>
+                <el-table-column
+                        fixed="right"
+                        label="操作"
+                        width="100">
+                    <template slot-scope="scope">
+                        <el-button type="text" @click="handleUpdate(scope.row)">编辑</el-button>
+                        <el-button type="text" @click="remove(scope.row)">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
+        </el-main>
+    </el-container>
+
     <el-dialog
             title="修改用户"
             :visible.sync="dialogVisible"
@@ -113,7 +184,7 @@
             width="50%"
             :before-close="handleClose">
         <el-form ref="form" :model="form1" label-width="80px">
-            <el-form-item label="账号">
+            <el-form-item label="用户名">
                 <el-input v-model="form1.userName"></el-input>
             </el-form-item>
             <el-form-item label="密码">
@@ -159,7 +230,7 @@
                 users: [],
                 dialogVisible: false,
                 dialogVisible4Add: false,
-                // userName1:this.sessionStorage.getItem("user"),
+                activeIndex2: '1',
                 name: '',
                 form: {
                     userId: '',
@@ -185,6 +256,7 @@
             }
         },
         created() {
+            // this.checkLogin()
             this.getAll()
             this.getName()
         },
@@ -251,6 +323,7 @@
                     if (res.data.code === 1) {
                         this.getAll()
                         alert("添加成功")
+                        this.$refs[this.form1].resetFields()
                         this.dialogVisible4Add = false;
                     } else {
                         alert("添加失败")
@@ -258,7 +331,6 @@
                 })
             },
             remove(row) {
-                console.log("111")
                 axios({
                     method: "delete",
                     url: "http://localhost:8080/users/" + row.userId
@@ -274,6 +346,42 @@
             getName() {
                 // console.log(sessionStorage.getItem('user'));
                 this.name = JSON.parse(sessionStorage.getItem('user')).userName
+            },
+            moveToOrder() {
+                window.location.href = "managerServiceOrder.html"
+            },
+            moveToUser() {
+                window.location.href = "managerUser.html"
+
+            },
+            moveToKeeper() {
+                window.location.href = "managerHouseKeeper.html"
+
+            },
+            moveToType() {
+                window.location.href = "managerServiceType.html"
+
+            },
+            moveToComment() {
+                window.location.href = "managerServiceComment.html"
+
+            },
+            moveToCheck() {
+                window.location.href = "managerServiceOrder.html"
+
+            },
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            checkLogin() {
+
+                if (sessionStorage.getItem('user') == null) {
+                    alert("请先登录")
+                    window.location.href = "userLogin.html"
+                }
+            },
+            Info() {
+                window.location.href = "userInfo.html"
             }
         }
     })

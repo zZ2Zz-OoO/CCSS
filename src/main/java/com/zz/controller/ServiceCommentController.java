@@ -1,12 +1,12 @@
 package com.zz.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zz.pojo.R;
 import com.zz.pojo.ServiceComment;
 import com.zz.service.ServiceCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @RestController
@@ -27,7 +27,7 @@ public class ServiceCommentController {
     }
 
     @DeleteMapping("/{serviceComment_id}")
-    public R<String> deleteOne(@PathVariable BigInteger serviceComment_id) {
+    public R<String> deleteOne(@PathVariable Integer serviceComment_id) {
         boolean b = serviceCommentService.removeById(serviceComment_id);
         if (b) {
             return R.success("删除成功");
@@ -37,9 +37,13 @@ public class ServiceCommentController {
         }
     }
 
-    @GetMapping("/{serviceComment_id}")
-    public R<ServiceComment> getById(@PathVariable BigInteger serviceComment_id) {
-        ServiceComment ServiceComment = serviceCommentService.getById(serviceComment_id);
+    @GetMapping("/{serviceOrder_id}")
+    public R<ServiceComment> getById(@PathVariable Integer serviceOrder_id) {
+
+        QueryWrapper<ServiceComment> QueryWrapper = new QueryWrapper<>();
+        QueryWrapper.eq("service_order_id", serviceOrder_id);
+
+        ServiceComment ServiceComment = serviceCommentService.getOne(QueryWrapper);
         if (ServiceComment != null) {
             return R.success(ServiceComment);
         }
